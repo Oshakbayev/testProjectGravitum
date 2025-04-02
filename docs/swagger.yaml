@@ -1,0 +1,194 @@
+basePath: /
+definitions:
+  template_internal_delivery_http.errorDetails:
+    properties:
+      fields:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+    type: object
+  template_internal_delivery_http.meta:
+    properties:
+      code:
+        type: integer
+      debug_id:
+        type: string
+      details:
+        items:
+          $ref: '#/definitions/template_internal_delivery_http.errorDetails'
+        type: array
+      message:
+        type: string
+      reason:
+        type: string
+    type: object
+  template_internal_delivery_http.myResponse:
+    properties:
+      meta:
+        $ref: '#/definitions/template_internal_delivery_http.meta'
+    type: object
+  template_internal_dto_auth.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  template_internal_dto_auth.LoginResponse:
+    properties:
+      jwt:
+        type: string
+      refresh_token:
+        type: string
+      user:
+        $ref: '#/definitions/template_internal_dto_user.User'
+    type: object
+  template_internal_dto_user.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  template_internal_dto_user.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  template_internal_dto_user.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Test API
+  version: "1.0"
+paths:
+  /auth/local:
+    post:
+      consumes:
+      - application/json
+      description: login
+      parameters:
+      - description: user creds
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/template_internal_dto_auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/template_internal_dto_auth.LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+      summary: login
+      tags:
+      - auth
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: creates new user.
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/template_internal_dto_user.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+      security:
+      - Bearer: []
+      summary: creates new user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: updates user
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/template_internal_dto_user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/template_internal_delivery_http.myResponse'
+      security:
+      - Bearer: []
+      summary: updates user
+      tags:
+      - users
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

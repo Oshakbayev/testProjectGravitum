@@ -1,0 +1,19 @@
+app:
+  port: 8080
+  rto: 30s
+  wto: 30s
+  admin:
+    name: admin
+    password: admin
+    email: admin@gmail.com
+auth:
+  private_key: "NvGHSx4PcEfwVs90PVzw0VmvsufhcHY7GwLSZEEgZM/WDiR0vWwNR2WASGHIqXg9bVvHP1hydpbkTZR98M6QWg=="
+  public_key: "1g4kdL1sDUdlgEhhyKl4PW1bxz9YcnaW5E2UffDOkFo="
+  access_key_expiration: 60m
+  refresh_key_expiration: 24h
+repository:
+  mongo:
+    database: appdb
+#    address: "mongodb://localhost:27017" # for native run
+    address: mongodb://mongodb:27017 # for docker run
+facility: "test"
